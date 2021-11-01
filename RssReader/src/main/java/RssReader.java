@@ -1,24 +1,40 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class RssReader {
-	static String input;
-	static String convert;
-	static String output;
 	
 	public static void main(String[] args) {
 		
+		//コマンドパラメータの解析
 		CmdLineParamCategorize cmdLineParamCategorize= new CmdLineParamCategorize();
+		List<String> cmdLineParam = new ArrayList<>();
 		
 		try {
-			cmdLineParamCategorize.categorize(args);
+			cmdLineParam = cmdLineParamCategorize.categorize(args);
 		} catch (IllegalArgumentException e) {
 			System.out.println(e);
 
 		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("コマンドパラメータの指定方法が誤っています。");
 			System.out.println(e);
-			System.out.println("コマンドパラメータを入力してください。");
 		}
 		
+		//入力情報の取得
+		GetInput getInput = new GetInput();
+		List<String> titleList = new ArrayList<>();
+		List<String> valueList = new ArrayList<>();
 		
+		try {
+			if(cmdLineParam.get(0).contains("http")) {
+				getInput.getFeed(cmdLineParam);
+			} else if (cmdLineParam.get(0).contains(".txt")) {
+				getInput.getText(cmdLineParam);
+			}
+			
+			
+		} catch (Exception e) {
+			
+		}
 		
 	}
 }
